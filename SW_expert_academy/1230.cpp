@@ -17,46 +17,67 @@ node * make(int num) {
 
 void insert(node * head, node * tail) {
 	int num, input, len;
-	node* now = head;
+	node* now = head->next;
 	node* tmp = NULL;
 	scanf("%d %d", &num, &len);
 	//printf("insert num : %d\n", num);
-	
 
-  for (int i = 0; i < num; i++) {
-    now = now->next;
-  }
-  //last
-  if (now == tail) {
-    for (int i = 0; i < len; i++) {
-      scanf("%d", &num);
-      node *n = (node *)malloc(sizeof(node));
-      n->num = num;
-      n->next = NULL;
-      now->next = n;
-      now = n;
-    }
-  }
-  //middle
-  else {
-    tmp = now->next;
-    for (int i = 0; i < len; i++) {
-      scanf("%d", &num);
-      node *n = (node *)malloc(sizeof(node));
-      n->num = num;
-      n->next = NULL;
-      now->next = n;
-      now = n;
-    }
-    now->next = tmp;
-  }
+	if (num == 0) {
+		scanf("%d", &num);
+		node *n = (node *)malloc(sizeof(node));
+		n->num = num;
+		n->next = NULL;
+		tmp = head->next;
+		head->next = n;
+		now = n;
+		for (int i = 0; i < len-1; i++) {
+			scanf("%d", &num);
+			node *n = (node *)malloc(sizeof(node));
+			n->num = num;
+			n->next = NULL;
+			now->next = n;
+			now = n;
+		}
+		now->next = tmp;
+		//printf("now %d", head->num);
+		return;
+	}
+
+
+	for (int i = 0; i < num-1; i++) {
+		now = now->next;
+	}
+	//last
+	if (now == tail->next) {
+		for (int i = 0; i < len; i++) {
+			scanf("%d", &num);
+			node *n = (node *)malloc(sizeof(node));
+			n->num = num;
+			n->next = NULL;
+			now->next = n;
+			now = n;
+		}
+	}
+	//middle
+	else {
+		tmp = now->next;
+		for (int i = 0; i < len; i++) {
+			scanf("%d", &num);
+			node *n = (node *)malloc(sizeof(node));
+			n->num = num;
+			n->next = NULL;
+			now->next = n;
+			now = n;
+		}
+		now->next = tmp;
+	}
 
 
 }
 
 void add(node * head, node * tail) {
 	int num, input, len;
-	node* now = tail;
+	node* now = tail->next;
 	scanf("%d", &len);
 
 	for (int i = 0; i < len; i++) {
@@ -72,23 +93,35 @@ void add(node * head, node * tail) {
 
 void del(node * head, node * tail) {
 	int num, input, len;
-	node* now = head;
+	node* now = head->next;
 	node* tmp = NULL;
 	node* start = NULL;
 	node* end = NULL;
 	scanf("%d %d", &num, &len);
 	//printf("insert num : %d\n", num);
-	for (int i = 0; i < num; i++) {
+
+	if (num==0) {
+		for (int i = 0; i < len; i++) {
+			now = now->next;
+			//printf("num %d ", now->num);
+		}
+		head->next = now;
+		//printf("now %d", head->num);
+		return;
+	}
+
+	for (int i = 0; i < num-1; i++) {
 		now = now->next;
 	}
 	start = now;
 	for (int i = 0; i < len + 1; i++) {
 		now = now->next;
 	}
+
 	//tail
 	if (now == tail) {
 		start->next = NULL;
-		tail = start;
+		tail->next = start;
 	}
 	//middle
 	else {
@@ -99,7 +132,7 @@ void del(node * head, node * tail) {
 
 
 void print(node * head) {
-	node * now = head;
+	node * now = head->next;
 	while (now != NULL) {
 		printf("%d ", now->num);
 		now = now->next;
@@ -108,7 +141,7 @@ void print(node * head) {
 }
 
 void print10(node * head) {
-	node * now = head;
+	node * now = head->next;
 	for (int i = 0; i < 10; i++) {
 		printf("%d ", now->num);
 		now = now->next;
@@ -118,13 +151,14 @@ void print10(node * head) {
 
 
 int main() {
-	
+
 
 	freopen("input.txt", "r", stdin);
 	for (int k = 0; k < 10; k++) {
 		struct Node *head = (node *)malloc(sizeof(node));
 		struct Node *tail = (node *)malloc(sizeof(node));
-		head = tail = NULL;
+
+		head->next = tail->next = NULL;
 		scanf("%d", &len);
 		//crypto
 		for (int i = 0; i < len; i++) {
@@ -132,13 +166,13 @@ int main() {
 			node *n = (node *)malloc(sizeof(node));
 			n->num = num;
 			n->next = NULL;
-			if (head == NULL) {
-				head = n;
-				tail = n;
+			if (head->next == NULL) {
+				head->next = n;
+				tail->next = n;
 			}
 			else {
+				(tail->next)->next = n;
 				tail->next = n;
-				tail = n;
 			}
 		}
 		//print(head);
