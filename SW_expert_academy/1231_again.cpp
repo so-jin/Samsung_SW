@@ -5,35 +5,38 @@
 using namespace std;
 int num;
 char n;
-string input;
+//string input;
 char tree[101];
+char input[20];
 
 void inorder(int index) {
-	if (index <1 || index >num) return;
+	if (index < 1 || index >num) return;
 	inorder(index << 1);
-	printf("%c", tree[index]);
+	cout << tree[index];
 	inorder(index << 1 | 1);
 }
 
 int main() {
 	freopen("input.txt", "r", stdin);
-	for (int k = 0; k < 10; k++) {
-		scanf(" %d", &num);
+	for (int k = 0; k < 1; k++) {
+		cin >> num;
 		//printf("%d %d\n",k, num);
-		scanf("%c", &n);
+		cin >> n;
 		for (int i = 1; i <= num; i++) {
 			//scanf("%s", a);
-			getline(cin, input);
+			//cin.ignore();
+			cin.getline(input,20);
+			cout << "get: " << input;
+			//getline(cin, input);
 			//cout << input << endl;
-			//printf("%c", input[0]);
+			cout <<' ' <<  input[2] << endl;
 			tree[i] = input[2];
-			//printf("%c\n", tree[i]);
+			//printf("%c", tree[i]);
 		}
-		printf("#%d ", k + 1);
+		cout << '#' << k + 1;
 		inorder(1);
-		printf("\n");
+		cout << endl;
 
-		
 	}
 
 	return 0;
