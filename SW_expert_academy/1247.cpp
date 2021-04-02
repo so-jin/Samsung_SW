@@ -11,16 +11,6 @@ int go[2][2];
 int client[12][12];
 int length[12][12];
 
-void process_solution(int a[], int k, int n) {
-	cout << "{ ";
-	for (int i = 1; i <= n; i++) {
-		//포함되는 경우
-		cout << a[i] << " ";		//원본배열에 대한 인덱스 값을 생성
-		//cout << src[i - 1] << " ";
-
-	}
-	cout << " } \n";
-}
 
 int make_candidate(int a[], int k, int n, int c[]) {
 	int inPerm[11] = { 0, };
@@ -43,16 +33,10 @@ void backtrack(int a[], int k, int n, int cSum) {
 	int nCands = 0;				// 후보해 집합에 포함된 원소의 수
 
 
-	//가지치기
-	//if (cSum > K) return;		// 현재까지 고려한 값을 가지고 찾은 가지치기 조건
-	//if (cSum + tSum < k) return;	//미래에 구할 수 있는 값을 가지고 찾은 가지치기 조건
-
 	//뽑아야 할 숫자가 다 뽑히면
 	if (k == n) {
 		if (cSum + length[a[k]][k + 1] < min_length) {
 			min_length = cSum + length[a[k]][k+1];
-			//cout << cSum <<"!" << length[a[k]][k+1] << endl;
-			//process_solution(a, k, n);
 		}
 	}
 	else {
@@ -67,13 +51,12 @@ void backtrack(int a[], int k, int n, int cSum) {
 			// 1이 들어갔다면 k에 해당하는 값이 출력된다. k를 cSum에 더해주면 된다.
 			int num = 0;
 			if (a[k] != 0) {
-						//cSum은 매개변수, 매개변수의 변경은 반드시 호출시점에 변경해야 한다!
+				//cSum은 매개변수, 매개변수의 변경은 반드시 호출시점에 변경해야 한다!
 				num = length[a[k]][a[k - 1]];
 
 			}
-			//backtrack(a, k, n, cSum + num, tSum - k);
-			// 재귀호출의 횟수를 줄여라
-			// min보다 작다면! PASS
+		
+			// min보다 크다면! PASS
 			if (cSum + num < min_length) {
 				backtrack(a, k, n, cSum + num);
 			}
@@ -95,8 +78,7 @@ int main()
 		cin >> client_num;
 		cin >> client[0][0] >> client[0][1];
 		cin >> client[client_num+1][0] >> client[client_num+1][1];
-		//cout << client[client_num + 1][0] << " : " << client[client_num + 1][1] << endl;
-		//cout << "client num" << client_num << endl;5
+
 		for (int i = 1; i <= client_num; i++) {
 			cin >> client[i][0] >> client[i][1];
 		}
@@ -108,7 +90,6 @@ int main()
 
 				length[i][j] = length[j][i] = x + y;
 
-				//cout << i << " " << j << " " << length[i][j] << endl;
 			}
 		}
 
