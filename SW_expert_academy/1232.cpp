@@ -24,12 +24,12 @@ long double postorder(int index, Node* tree[]) {
 	//printf("cal %d\n", index);
 	Node *node = tree[index];
 	if (node == NULL) {
-		printf("Node is not found \n");
+		//printf("Node is not found \n");
 		return 0;
 	}
 
 	if (node->flag == NUM) {
-		printf("Num: %d %Lf\n",index, node->data_index.num);
+		//printf("Num: %d %Lf\n",index, node->data_index.num);
 		return (long double)node->data_index.num;
 
 	}
@@ -38,28 +38,28 @@ long double postorder(int index, Node* tree[]) {
 	long double right = postorder(node->right, tree);
 	switch (node->data_index.cal) {
 		case '+':
-			result = left + right;
+			return result = left + right;
 			break;
 		case '-':
-			result = left - right;
+			return result = left - right;
 			break;
 		case '*':
-			result = left * right;
+			return result = left * right;
 			break;
 		case '/':
-			result = left / right;
+			return result = left / right;
 			break;
 	}
-	node->flag = NUM;
-	node->data_index.num = result;
-	printf("tmp result %Lf %c %Lf = %Lf\n",left, node->data_index.cal, right, result);
+	//node->flag = NUM;
+	//node->data_index.num = result;
+	//printf("tmp result %Lf %c %Lf = %Lf\n",left, node->data_index.cal, right, result);
 }
 
 int main() {
 	freopen("input.txt", "r", stdin);
-	for (int k = 0; k < 1; k++) {
+	for (int k = 0; k < 10; k++) {
 		scanf("%d ", &node_size);
-		printf("%d ", node_size);
+		//printf("%d ", node_size);
 		Node* tree[10001] = { nullptr, };
 
 
@@ -90,7 +90,7 @@ int main() {
 					newNode->left = atoi(check[2]);
 					newNode->right = atoi(check[3]);
 					newNode->flag = CAL;
-					printf("make node %c %d %d\n", newNode->data_index.cal, newNode->left, newNode->right);
+					//printf("make node %c %d %d\n", newNode->data_index.cal, newNode->left, newNode->right);
 				}
 				tree[atoi(check[0])] = newNode;
 			}
@@ -100,7 +100,7 @@ int main() {
 				newNode->left = 0;
 				newNode->right = 0;
 				newNode->flag = NUM;
-				printf("make node %Lf\n", newNode->data_index.num);
+				//printf("make node %Lf\n", newNode->data_index.num);
 				tree[atoi(check[0])] = newNode;
 
 			}
@@ -109,12 +109,9 @@ int main() {
 		}
 
 
-		for (int i = 1; i <= node_size; i++) {
-			if (tree[i]->flag == CAL) printf("%d %c\n",i, tree[i]->data_index.cal);
-			else printf("%d %Lf\n", i, tree[i]->data_index.num);
-		}
+		
 
-		printf("result:!! %Lf \n", postorder(1, tree));
+		printf("#%d %.0Lf \n",k+1, postorder(1, tree));
 
 	
 		for (int i = 1; i <= node_size; i++) {
