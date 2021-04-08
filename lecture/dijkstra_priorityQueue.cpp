@@ -23,7 +23,7 @@ void push(int value) {
 
 	int child = heapCount;
 	int parent = child >> 1;
-	while (parent > 0 && heap[parent] > heap[child]) {
+	while (parent > 0 && heap[D[parent]] > heap[D[child]]) {
 		int tmp = heap[parent];
 		heap[parent] = heap[child];
 		heap[child] = tmp;
@@ -41,11 +41,11 @@ int pop() {
 	int child = 2 * parent;	//left child
 	//right child is exist
 	if (child + 1 <= heapCount) {
-		child = (heap[child] < heap[child + 1]) ? child : child + 1;
+		child = (heap[D[child]] < heap[D[child + 1]]) ? child : child + 1;
 
 	}
 	//위치 바꾸기
-	while (child <= heapCount && heap[parent] > heap[child]) {
+	while (parent > 0 && heap[D[parent]] > heap[D[child]]) {
 		int tmp = heap[parent];
 		heap[parent] = heap[child];
 		heap[child] = tmp;
@@ -53,7 +53,7 @@ int pop() {
 		parent = child;
 		child = parent << 1;
 		if (child + 1 <= heapCount) {
-			child = (heap[child] < heap[child + 1]) ? child : child + 1;
+			child = (heap[D[child]] < heap[D[child + 1]]) ? child : child + 1;
 
 		}
 	}
@@ -67,7 +67,7 @@ int pop() {
 
 
 
-
+// O(VlogE)
 int dijkstra(int s) {
 	//U[s] = true;
 	//for (int v = 1; v < V; v++) {
@@ -78,15 +78,21 @@ int dijkstra(int s) {
 	push(s);
 
 	//empty가 아닌 동안
-	while(heapCount>0) {
+	while (heapCount > 0) {
 		int w = pop();	// w선택
-		U[w] = true;
 
-		//인접한 모든 정점
-		for (int v = 1; v <= V; v++) {
-			if (A[w][v] != INFINITI && D[v] > D[w] + A[w][v]) {
-				D[v] = D[w] + A[w][v];
-				push(v);
+
+		//이미 check된 것들을 중복체크하지 않도록
+		if (U[w] == false) {
+
+			U[w] = true;
+
+			//인접한 모든 정점
+			for (int v = 1; v <= V; v++) {
+				if (A[w][v] != INFINITI && D[v] > D[w] + A[w][v]) {
+					D[v] = D[w] + A[w][v];
+					push(v);
+				}
 			}
 		}
 	}
