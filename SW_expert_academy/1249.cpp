@@ -13,10 +13,12 @@ queue<Vertex> que;
 char tmp;
 int test_num, road_size;
 const int INFINIT = 999;
+const int SIZE = 100000;
 int road[101][101];
 int D[101][101];
 int x_[4] = { 0,0,1,-1 };
 int y_[4] = { 1,-1,0,0 };
+Vertex q[SIZE] = {};
 
 void print_distance() {
 	for (int i = 1; i < road_size; i++) {
@@ -31,13 +33,14 @@ void print_distance() {
 Vertex shortest_BFS() {
 	//find smallest way
 	//que.push({ 1,1 });
-	Vertex queue[10000] = {};
-	//int front = -1; 
-	//int rear = -1;
+	int front = -1; 
+	int rear = -1;
+	q[++rear] = { 1,1 };
 
-	while (!que.empty()) {
-		Vertex v = que.front();
-		que.pop();
+	while (rear != front) {
+		//Vertex v = que.front();
+		//que.pop();
+		Vertex v = q[(++front)%SIZE];
 		int x = v.x;
 		int y = v.y;
 
@@ -56,8 +59,8 @@ Vertex shortest_BFS() {
 					D[X][Y] = D[x][y] + road[X][Y];
 					//printf("X%d Y%d x%d y%d %d = %d+%d\n", X, Y,x,y, D[X][Y], D[x][y], road[X][Y]);
 					//print_distance();
-
-					que.push({ X, Y });
+					q[(++rear)%SIZE] = { X,Y };
+					//que.push({ X, Y });
 				}
 			}
 		}
@@ -72,16 +75,16 @@ int main(){
 	scanf("%d", &test_num);
 
 
-	for (int k = 0; k < 5; k++) {
+	for (int k = 0; k < 10; k++) {
 		scanf("%d", &road_size);
 		for (int i = 1; i <= road_size; i++) {
 			for (int j = 1; j <= road_size; j++) {
 				scanf(" %c", &tmp);
 				D[i][j] = INFINIT;
 				road[i][j] = tmp-'0';
-				printf("%d", road[i][j]);
+				//printf("%d", road[i][j]);
 			}
-			printf("\n");
+			//printf("\n");
 		}
 		D[1][1] = 0;
 		Vertex v = shortest_BFS();
