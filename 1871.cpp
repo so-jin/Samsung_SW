@@ -17,6 +17,7 @@ int findLis() {
 				d[i] = d[j] + 1;
 			}
 		}
+		// store max index
 		if (LIS_len < d[i]) {
 			LIS_len = d[i];
 			LIS_idx = i;
