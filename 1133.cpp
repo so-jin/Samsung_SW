@@ -26,9 +26,9 @@ int strcmp(const char*s, const char*t) {
 }
 
 int num;
-char st[1001][21];
-short visit[1001];
-int hash[1001];
+char st[10001][21];
+short visit[10001];
+int hash[10001];
 int flag;
 int found;
 int main() {
